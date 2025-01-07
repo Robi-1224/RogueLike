@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] Text coinText;                     // Currency indicator.
     [SerializeField] Image healthImage;                 // Health bar.
-
+    public List<string> inventory;
     private int coins = 0;                              // Amount of coins collected.
 
 
