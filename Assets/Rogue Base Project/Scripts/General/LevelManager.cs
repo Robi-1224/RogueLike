@@ -11,12 +11,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Image healthImage;                 // Health bar.
     public List<string> inventory;
     [SerializeField] int inventoryIndex;
-    private int coins = 0;                              // Amount of coins collected.
+    public int coins = 0;                              // Amount of coins collected.
 
-
+ 
     void Awake()
     {
         Instance = this;
+        var saveData = FindAnyObjectByType<SaveManager>();
+        saveData.LoadData();
+
     }
 
     void Update()
@@ -25,6 +28,16 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            var saveData = FindAnyObjectByType<SaveManager>();
+            saveData.SaveData();
+        }
+    }
+
+    private void InventorySystem()
+    {
+        if (inventory != null)
+        {
+            inventory[inventoryIndex].gameobject.GetComponent
         }
     }
 }
