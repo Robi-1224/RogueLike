@@ -7,4 +7,6 @@ public class Save
 {
     public List<string> itemIDs;
     public int coins;
+    
+    
 }

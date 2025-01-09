@@ -32516,8 +32516,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinText: {fileID: 289582212}
   healthImage: {fileID: 221390901}
-  inventory: []
   inventoryIndex: 0
+  inventory: []
   coins: 0
 --- !u!114 &1738000467
 MonoBehaviour:
