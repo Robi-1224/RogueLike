@@ -7,26 +7,30 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     
-    private levelma levelManager;
+    private LevelManager levelManager;
     private string coinPath;
     private string inventoryPath;
     void Start()
     {
+        //makes a path to your file explorer
         coinPath = Application.persistentDataPath + "/coins.save";
         inventoryPath = Application.persistentDataPath + "/inventory.save";
-        levelManager = GetComponent<leve>();
+        levelManager = GetComponent<LevelManager>();
+        LoadData();
     }
 
 
     public void SaveData()
     {
+        // sets the variables from the save script to the current variables of LevelManager script
         var save = new Save()
         {
             itemIDs = levelManager.inventory,
             coins = levelManager.coins,
+            
         };
-
-
+        
+        // creates a file at the file path with the current levelManager variables
         var binaryFormatter = new BinaryFormatter();
 
         using (var fileStream = File.Create(coinPath))
@@ -34,9 +38,9 @@ public class SaveManager : MonoBehaviour
             binaryFormatter.Serialize(fileStream, save);
         }
 
-        using (var fileStream = File.Create(inventoryPath))
+       // using (var fileStream = File.Create(inventoryPath))
         {
-            binaryFormatter.Serialize(fileStream, save);
+          //  binaryFormatter.Serialize(fileStream, save);
         }
 
         Debug.Log("Saved");
@@ -44,18 +48,20 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
-        if(File.Exists(coinPath))
+        if(File.Exists( coinPath))
         {
+            //checks if the file path exists and deserializes it 
             Save save;
             var binaryFromatter = new BinaryFormatter();
 
-            using(var fileStream = File.Open(coinPath, FileMode.Open))
+            using(var fileStream = File.Open( coinPath, FileMode.Open))
             {
                save = (Save)binaryFromatter.Deserialize(fileStream);
             }
 
+           // puts the current variables to the saved ones
 
-            levelManager.inventory = save.itemIDs;
+          //  levelManager.inventory = save.itemIDs;
             levelManager.coins = save.coins;
 
             Debug.Log("Loaded");
@@ -63,6 +69,7 @@ public class SaveManager : MonoBehaviour
         else
         {
             Debug.Log("Path doesnt exist");
+
         }
 
 
