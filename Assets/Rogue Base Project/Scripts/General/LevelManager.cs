@@ -2,23 +2,27 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using TMPro;
+using System;
+using Unity.VisualScripting;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private SaveManager saveData;
 
+    public List<string> purchasedList;
+
     [SerializeField] Text coinText;                     // Currency indicator.
     [SerializeField] Image healthImage;                 // Health bar.
     [SerializeField] int inventoryIndex;  
-    
-    public List<string> inventory;
    
     public int coins = 0;                              // Amount of coins collected.
 
- 
+    public GameObject selectedButton;
     void Awake()
     {
+      
        Instance = this;
        saveData = GetComponent<SaveManager>();
        
@@ -26,7 +30,7 @@ public class LevelManager : MonoBehaviour
    
     void Update()
     {
-       
+        coinText.text = coins.ToString();
         // Restart the scene when you press.
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -35,8 +39,5 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void InventorySystem()
-    {
-       
-    }
+  
 }
