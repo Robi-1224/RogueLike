@@ -2446,11 +2446,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   purchasedList: []
+  permaUnlockList: []
   coinText: {fileID: 1373502469}
   healthImage: {fileID: 0}
   inventoryIndex: 0
   coins: 30
-  selectedButton: {fileID: 0}
 --- !u!4 &819947668
 Transform:
   m_ObjectHideFlags: 0

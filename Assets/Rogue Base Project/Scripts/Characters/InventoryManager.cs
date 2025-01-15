@@ -25,26 +25,44 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      StartCoroutine(InventoryCheck());
+       StartCoroutine(InventoryCheck());
     }
 
     private IEnumerator InventoryCheck()
     {
-        
-        if(levelManager.purchasedList != null && onlyOnce)
-        {
-            for(int i= 0; i< levelManager.purchasedList.Count; i++)
+        while (onlyOnce) {
+           
+            if (levelManager.purchasedList != null && onlyOnce)
             {
-                Debug.Log("spawn");
-                GameObject[] items = GameObject.FindGameObjectsWithTag(levelManager.purchasedList[i]);
+                for (int i = 0; i < levelManager.purchasedList.Count; i++)
+                {
+                    Instantiate(inventoryItems[0], itemTransform);
+                    GameObject[] items = GameObject.FindGameObjectsWithTag("health potion");
 
-                purchasedItems = items;
+                    purchasedItems = items;
 
-                inventoryVisual[i].GetComponent<Image>().sprite = inventoryItems[i].GetComponentInChildren<SpriteRenderer>().sprite;
+                    inventoryVisual[i].GetComponent<Image>().sprite = purchasedItems[i].GetComponentInChildren<SpriteRenderer>().sprite;
+                }
+
+
             }
-            onlyOnce= false;
+
+            if (onlyOnce && levelManager.permaUnlockList != null)
+            {
+                for (int i = 0; i < levelManager.permaUnlockList.Count; i++) {
+
+                    Instantiate(inventoryItems[1], itemTransform);
+                    GameObject[] items = GameObject.FindGameObjectsWithTag("Dash cloak");
+
+                    purchasedItems= items;
+
+                    inventoryVisual[3].GetComponent<Image>().sprite = purchasedItems[i].GetComponentInChildren<SpriteRenderer>().sprite;
+                }
+            }
+
+
             yield return null;
+            onlyOnce = false;
         }
-       
     }
 }

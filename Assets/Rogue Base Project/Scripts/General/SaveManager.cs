@@ -10,11 +10,13 @@ public class SaveManager : MonoBehaviour
     private LevelManager levelManager;
     private string coinPath;
     private string inventoryPath;
+    private string permaUnlockedPath;
     void Start()
     {
         //makes a path to your file explorer
         coinPath = Application.persistentDataPath + "/coins.save";
         inventoryPath = Application.persistentDataPath + "/inventory.save";
+        permaUnlockedPath = Application.persistentDataPath + "/permaUnlocked.save";
         levelManager = GetComponent<LevelManager>();
         LoadData();
     }
@@ -26,6 +28,7 @@ public class SaveManager : MonoBehaviour
         var save = new Save()
         {
             itemIDs = levelManager.purchasedList,
+            permaIDs = levelManager.permaUnlockList,
             coins = levelManager.coins,
             
         };
@@ -41,6 +44,11 @@ public class SaveManager : MonoBehaviour
         using (var fileStream = File.Create(inventoryPath))
         {
            binaryFormatter.Serialize(fileStream, save);
+        }
+
+        using (var fileStream = File.Create(permaUnlockedPath))
+        {
+            binaryFormatter.Serialize(fileStream, save);
         }
 
         Debug.Log("Saved");
@@ -63,10 +71,16 @@ public class SaveManager : MonoBehaviour
             {
                 save = (Save)binaryFromatter.Deserialize(fileStream);
             }
+
+            using (var fileStream = File.Open(permaUnlockedPath, FileMode.Open))
+            {
+                save = (Save)binaryFromatter.Deserialize(fileStream);
+            }
             // puts the current variables to the saved ones
 
             levelManager.purchasedList = save.itemIDs;
             levelManager.coins = save.coins;
+            levelManager.permaUnlockList = save.permaIDs;
 
             Debug.Log("Loaded");
         }

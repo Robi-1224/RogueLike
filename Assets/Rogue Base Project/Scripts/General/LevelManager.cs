@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     private SaveManager saveData;
 
     public List<string> purchasedList;
+    public List<string> permaUnlockList;
 
     [SerializeField] Text coinText;                     // Currency indicator.
     [SerializeField] Image healthImage;                 // Health bar.
