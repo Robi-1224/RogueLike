@@ -19,7 +19,6 @@ public class LevelManager : MonoBehaviour
    
     public int coins = 0;                              // Amount of coins collected.
 
-    public GameObject selectedButton;
     void Awake()
     {
       

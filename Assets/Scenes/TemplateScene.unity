@@ -122,6 +122,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &24189827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 24189828}
+  m_Layer: 0
+  m_Name: items
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &24189828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24189827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.764314, y: 7.936969, z: -66.6516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &24568210
 GameObject:
   m_ObjectHideFlags: 0
@@ -31475,13 +31506,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItems:
-  - {fileID: 7213132263305996861, guid: c715f4c79389a0a45b2b3c6a2435e253, type: 3}
-  - {fileID: 3078864535880922914, guid: d52d876ea9fd1e34398984a0865b4cbe, type: 3}
   - {fileID: 5999660889670914431, guid: 70154908d20f4f9468d0d8ae5090874c, type: 3}
+  - {fileID: 3078864535880922914, guid: d52d876ea9fd1e34398984a0865b4cbe, type: 3}
+  - {fileID: 7213132263305996861, guid: c715f4c79389a0a45b2b3c6a2435e253, type: 3}
+  purchasedItems: []
   inventoryVisual:
   - {fileID: 2129378340}
   - {fileID: 1861129964}
   - {fileID: 673554753}
+  itemTransform: {fileID: 24189828}
 --- !u!1001 &1290749648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32542,10 +32575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b78afdc29b9f3a4a8023271cb5abdc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  purchasedList: []
   coinText: {fileID: 289582212}
   healthImage: {fileID: 221390901}
   inventoryIndex: 0
-  inventory: []
   coins: 0
 --- !u!114 &1738000467
 MonoBehaviour:
@@ -37667,3 +37700,4 @@ SceneRoots:
   - {fileID: 1664682938}
   - {fileID: 627551945}
   - {fileID: 397490403}
+  - {fileID: 24189828}
