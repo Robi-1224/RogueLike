@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject[] inventoryItems;
     [SerializeField] GameObject[] purchasedItems;
 
-    [SerializeField] List<Image> inventoryVisual;
+    public List<Image> inventoryVisual;
 
     [SerializeField] Transform itemTransform;
     private LevelManager levelManager;
@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        //inventoryVisual[0].sprite = inventoryItems[0].GetComponentInChildren<SpriteRenderer>().sprite;
+        
         levelManager = FindAnyObjectByType<LevelManager>();
        
     }
@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
        StartCoroutine(InventoryCheck());
+        
     }
 
     private IEnumerator InventoryCheck()
@@ -42,6 +43,7 @@ public class InventoryManager : MonoBehaviour
                     purchasedItems = items;
 
                     inventoryVisual[i].GetComponent<Image>().sprite = purchasedItems[i].GetComponentInChildren<SpriteRenderer>().sprite;
+                   
                 }
 
 

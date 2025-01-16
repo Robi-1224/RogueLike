@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 public class Adventurer : MonoBehaviour
@@ -8,11 +10,14 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private bool doubleJump = true; // Enable for double jump.
     private int maxJumps = 1;
     private int jumps = 0;
+    [SerializeField] int health = 3;
 
 
     private CharacterController character;
     private AttackController attack;
     private Animator animator;
+    private InventoryManager inventoryManager;
+    private LevelManager levelManager;
 
     private float horizontalMove = 0f; // To what extent it moves horizontally.
     private bool isJumping = false;
@@ -25,6 +30,8 @@ public class Adventurer : MonoBehaviour
     {
         character = GetComponent<CharacterController>();
         attack = GetComponent<AttackController>();
+        inventoryManager= FindAnyObjectByType<InventoryManager>();
+        levelManager = FindAnyObjectByType<LevelManager>();
         animator = GetComponent<Animator>();
 
         // If the double jump is allowed, we increase the maximum of jumps.
@@ -60,6 +67,9 @@ public class Adventurer : MonoBehaviour
         else if (Input.GetButtonUp("Crouch"))
         {
             Crouch(false);
+        }else if (Input.GetButtonDown("Use"))
+        {
+            Use(true);
         }
     }
 
@@ -121,6 +131,17 @@ public class Adventurer : MonoBehaviour
         animator.SetInteger("Jumps", jumps);
     }
 
+    public void Use(bool u)
+    {
+        if(u && levelManager.purchasedList.Count >0 && health >0 && health != 3)
+        {
+            health += 1;
+            levelManager.purchasedList.RemoveAt(0);
+            inventoryManager.inventoryVisual[0].gameObject.SetActive(false);
+            inventoryManager.inventoryVisual.RemoveAt(0);
+           
+        }
+    }
     public void Crouch(bool c)
     {
         // Update the state crouch.

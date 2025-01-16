@@ -1578,6 +1578,14 @@ PrefabInstance:
       propertyPath: whatIsEnemy.m_Bits
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114208317006013580, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
+      propertyPath: health
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114208317006013580, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
+      propertyPath: doubleJump
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114786061896649252, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
       propertyPath: m_WhatIsGround.m_Bits
       value: 4294967295
@@ -32653,6 +32661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   purchasedList: []
+  permaUnlockList: []
   coinText: {fileID: 289582212}
   healthImage: {fileID: 221390901}
   inventoryIndex: 0
