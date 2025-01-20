@@ -11,6 +11,7 @@ public class Adventurer : MonoBehaviour
     private int maxJumps = 1;
     private int jumps = 0;
     [SerializeField] int health = 3;
+    [SerializeField] int dashForce;
 
 
     private CharacterController character;
@@ -25,6 +26,7 @@ public class Adventurer : MonoBehaviour
 
     private int currentDirection = 0; // In which direction it moves.
 
+    private Rigidbody2D rb2d;
 
     private void Awake()
     {
@@ -34,6 +36,7 @@ public class Adventurer : MonoBehaviour
         levelManager = FindAnyObjectByType<LevelManager>();
         animator = GetComponent<Animator>();
 
+        rb2d = GetComponent<Rigidbody2D>();
         // If the double jump is allowed, we increase the maximum of jumps.
         if (doubleJump) maxJumps = 2;
     }
@@ -67,9 +70,14 @@ public class Adventurer : MonoBehaviour
         else if (Input.GetButtonUp("Crouch"))
         {
             Crouch(false);
+
         }else if (Input.GetButtonDown("Use"))
         {
             Use(true);
+
+        } else if (Input.GetButtonDown("Dash"))
+        {
+            Dash(true);
         }
     }
 
@@ -97,6 +105,15 @@ public class Adventurer : MonoBehaviour
             default: horizontalMove = 0; break;
             case -1: horizontalMove = -runSpeed; break;
             case 1: horizontalMove = runSpeed; break;
+        }
+    }
+
+    public void Dash(bool d)
+    {
+        if ( levelManager.permaUnlockList.Contains("Dash cloak")&& d)
+        {
+            
+            rb2d.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
         }
     }
 
