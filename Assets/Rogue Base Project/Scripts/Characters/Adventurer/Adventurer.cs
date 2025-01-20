@@ -12,7 +12,6 @@ public class Adventurer : MonoBehaviour
     private int maxJumps = 1;
     private int jumps = 0;
     [SerializeField] private int health;
-    private int maxHealth =3;
     [SerializeField] int dashForce;
     private float timer;
 
@@ -32,7 +31,7 @@ public class Adventurer : MonoBehaviour
 
     private Rigidbody2D rb2d;
 
-    private void Awake()
+    private void Start()
     {
         character = GetComponent<CharacterController>();
         attack = GetComponent<AttackController>();
@@ -40,15 +39,12 @@ public class Adventurer : MonoBehaviour
         levelManager = FindAnyObjectByType<LevelManager>();
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-
-        health = maxHealth;
+        
+       
         // If the double jump is allowed, we increase the maximum of jumps.
         if (doubleJump) maxJumps = 2;
 
-        if (levelManager.permaUnlockList.Contains("Max health"))
-        {
-            maxHealth = 6;
-        }
+        
     }
 
     // We get all the inputs.
@@ -66,7 +62,8 @@ public class Adventurer : MonoBehaviour
             timer = 0;
             
         }
-       
+
+      
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         if (Input.GetButtonDown("Jump"))
@@ -131,8 +128,6 @@ public class Adventurer : MonoBehaviour
     public void Dash(bool d)
     {
        
-       
-         
         if (levelManager.permaUnlockList.Contains("Dash cloak") && d)
         {
           if (character.m_FacingRight && canDash)
@@ -143,8 +138,8 @@ public class Adventurer : MonoBehaviour
           }
           else if (!character.m_FacingRight && canDash)
           {
-            rb2d.AddForce(transform.right * -dashForce, ForceMode2D.Impulse);
-            canDash = false;
+             rb2d.AddForce(transform.right * -dashForce, ForceMode2D.Impulse);
+             canDash = false;
            
           }
         }
@@ -185,7 +180,7 @@ public class Adventurer : MonoBehaviour
 
     public void Use(bool u)
     {
-        if(u && levelManager.purchasedList.Count >0 && health >0 && health != maxHealth)
+        if(u && levelManager.purchasedList.Count >0 && health >0 )
         {    
             health += 1;
             levelManager.purchasedList.RemoveAt(0);

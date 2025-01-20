@@ -19,13 +19,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int inventoryIndex;  
    
     public int coins = 0;                              // Amount of coins collected.
-
-    void Awake()
+    void Start()
     {
       
        Instance = this;
        saveData = GetComponent<SaveManager>();
-       
+      
     }
    
     void Update()
@@ -37,6 +36,9 @@ public class LevelManager : MonoBehaviour
            // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             saveData.SaveData();
         }
+
+
+       
     }
 
   
