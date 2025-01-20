@@ -20,7 +20,7 @@ public class Shop : MonoBehaviour
     }
 
     
-    
+    // checks this upon trying to purchase any item in the shop
     public void PurchaseButton()
     {
         
@@ -34,7 +34,7 @@ public class Shop : MonoBehaviour
             Debug.Log("Purchased");
         }
         //for the perma unlocked gear
-        else if(itemName != "health potion")
+        else if(itemName != "health potion" && levelManager.coins >= price && !levelManager.permaUnlockList.Contains(itemName))
         {
             levelManager.coins -= price;
             levelManager.permaUnlockList.Add(itemName);
@@ -49,7 +49,7 @@ public class Shop : MonoBehaviour
         
     }
 
-    // button interactions
+    // button interactions main menu and exit shop
     public void BackToMenuButton()
     {
         shopPanel.SetActive(false);
