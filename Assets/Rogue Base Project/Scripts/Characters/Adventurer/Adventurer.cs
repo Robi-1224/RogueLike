@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,8 +11,10 @@ public class Adventurer : MonoBehaviour
     [SerializeField] private bool doubleJump = true; // Enable for double jump.
     private int maxJumps = 1;
     private int jumps = 0;
-    [SerializeField] int health = 3;
+    [SerializeField] private int health;
+    private int maxHealth =3;
     [SerializeField] int dashForce;
+    private float timer;
 
 
     private CharacterController character;
@@ -23,6 +26,7 @@ public class Adventurer : MonoBehaviour
     private float horizontalMove = 0f; // To what extent it moves horizontally.
     private bool isJumping = false;
     private bool isCrouching = false;
+    private bool canDash = false;
 
     private int currentDirection = 0; // In which direction it moves.
 
@@ -35,10 +39,16 @@ public class Adventurer : MonoBehaviour
         inventoryManager= FindAnyObjectByType<InventoryManager>();
         levelManager = FindAnyObjectByType<LevelManager>();
         animator = GetComponent<Animator>();
-
         rb2d = GetComponent<Rigidbody2D>();
+
+        health = maxHealth;
         // If the double jump is allowed, we increase the maximum of jumps.
         if (doubleJump) maxJumps = 2;
+
+        if (levelManager.permaUnlockList.Contains("Max health"))
+        {
+            maxHealth = 6;
+        }
     }
 
     // We get all the inputs.
@@ -47,6 +57,16 @@ public class Adventurer : MonoBehaviour
         if(currentDirection == 0)
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
+
+        timer += Time.deltaTime;
+
+        if (timer >= 1)
+        {
+            canDash = true;
+            timer = 0;
+            
+        }
+       
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
         if (Input.GetButtonDown("Jump"))
@@ -110,11 +130,26 @@ public class Adventurer : MonoBehaviour
 
     public void Dash(bool d)
     {
-        if ( levelManager.permaUnlockList.Contains("Dash cloak")&& d)
+       
+       
+         
+        if (levelManager.permaUnlockList.Contains("Dash cloak") && d)
         {
+          if (character.m_FacingRight && canDash)
+          {
+             rb2d.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+             canDash = false;
             
-            rb2d.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+          }
+          else if (!character.m_FacingRight && canDash)
+          {
+            rb2d.AddForce(transform.right * -dashForce, ForceMode2D.Impulse);
+            canDash = false;
+           
+          }
         }
+
+        
     }
 
     public void Jump(bool j)
@@ -150,13 +185,12 @@ public class Adventurer : MonoBehaviour
 
     public void Use(bool u)
     {
-        if(u && levelManager.purchasedList.Count >0 && health >0 && health != 3)
-        {
+        if(u && levelManager.purchasedList.Count >0 && health >0 && health != maxHealth)
+        {    
             health += 1;
             levelManager.purchasedList.RemoveAt(0);
             inventoryManager.inventoryVisual[0].gameObject.SetActive(false);
             inventoryManager.inventoryVisual.RemoveAt(0);
-           
         }
     }
     public void Crouch(bool c)
