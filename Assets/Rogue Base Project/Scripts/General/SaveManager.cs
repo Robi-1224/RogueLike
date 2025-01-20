@@ -11,7 +11,7 @@ public class SaveManager : MonoBehaviour
     private string coinPath;
     private string inventoryPath;
     private string permaUnlockedPath;
-    void Start()
+    void Awake()
     {
         //makes a path to your file explorer
         coinPath = Application.persistentDataPath + "/coins.save";

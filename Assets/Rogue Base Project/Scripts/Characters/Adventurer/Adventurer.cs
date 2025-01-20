@@ -12,6 +12,7 @@ public class Adventurer : MonoBehaviour
     private int maxJumps = 1;
     private int jumps = 0;
     [SerializeField] private int health;
+    private int maxHealth = 3;
     [SerializeField] int dashForce;
     private float timer;
 
@@ -44,7 +45,11 @@ public class Adventurer : MonoBehaviour
         // If the double jump is allowed, we increase the maximum of jumps.
         if (doubleJump) maxJumps = 2;
 
-        
+        if(levelManager.permaUnlockList.Contains("Max health"))
+        {
+            maxHealth = 6;
+        }
+        health = maxHealth;
     }
 
     // We get all the inputs.

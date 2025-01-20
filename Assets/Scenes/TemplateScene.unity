@@ -1583,6 +1583,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114208317006013580, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
+      propertyPath: dashForce
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114208317006013580, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
       propertyPath: doubleJump
       value: 1
       objectReference: {fileID: 0}

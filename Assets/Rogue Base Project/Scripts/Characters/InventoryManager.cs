@@ -14,6 +14,7 @@ public class InventoryManager : MonoBehaviour
     private LevelManager levelManager;
 
     private bool onlyOnce = true;
+    
     // Start is called before the first frame update
     void Awake()
     {
