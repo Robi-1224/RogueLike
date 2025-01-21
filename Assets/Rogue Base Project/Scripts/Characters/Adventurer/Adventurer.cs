@@ -16,14 +16,16 @@ public class Adventurer : MonoBehaviour
     [SerializeField] int dashForce;
     private float timer;
 
-
+    // script refs
     private CharacterController character;
     private AttackController attack;
     private Animator animator;
     private InventoryManager inventoryManager;
     private LevelManager levelManager;
+    private SaveManager saveManager;
 
     private float horizontalMove = 0f; // To what extent it moves horizontally.
+    // all the perma unlock bools including movement bools
     private bool isJumping = false;
     private bool isCrouching = false;
     private bool canDash = false;
@@ -37,10 +39,13 @@ public class Adventurer : MonoBehaviour
 
     private void Start()
     {
+        // script refs
         character = GetComponent<CharacterController>();
         attack = GetComponent<AttackController>();
         inventoryManager= FindAnyObjectByType<InventoryManager>();
         levelManager = FindAnyObjectByType<LevelManager>();
+        saveManager= FindAnyObjectByType<SaveManager>();
+        // component refs
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         
@@ -69,7 +74,7 @@ public class Adventurer : MonoBehaviour
         HealthCheck();
 
         if(currentDirection == 0)
-            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
 
         timer += Time.deltaTime;
@@ -145,7 +150,7 @@ public class Adventurer : MonoBehaviour
 
     public void Dash(bool d)
     {
-       
+       // adds a horizontal force to the character depending on what direction they are facing
         if (dashCloak && d)
         {
           if (character.m_FacingRight && canDash)
@@ -198,6 +203,7 @@ public class Adventurer : MonoBehaviour
 
     public void Use(bool u)
     {
+        // changes list size and adds a hitpoint when you have purchased a potion and you have more than 0 hp
         if(u && levelManager.purchasedList.Count >0 && health >0 )
         {    
             health += 1;
@@ -227,7 +233,7 @@ public class Adventurer : MonoBehaviour
 
     private void HealthCheck()
     {
-        // healthbar ui
+        // healthbar ui if you bought the max healht upgrade
         if (maxHealht)
         {
             switch (health)
@@ -244,12 +250,15 @@ public class Adventurer : MonoBehaviour
                     break;
             }
         }
+        // healthbar ui if  you didnt buy the maxhealth upgrade
         else
         {
             switch (health)
             {
                 case 0:
+                    // changing the recttransfrom.right and .top variables
                     healthBar.offsetMax = new Vector2(-200, 0);
+                    
                     Debug.Log("gameOver");
                     break;
                 case 1:
@@ -264,22 +273,26 @@ public class Adventurer : MonoBehaviour
 
     private IEnumerator IFrames()
     {
-        WaitForSeconds wait = new WaitForSeconds(.3f);
-        gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        // throws the player off of the monster and ads a cooldown before being able to get hit again
+        WaitForSeconds wait = new WaitForSeconds(.5f);
+      
+        rb2d.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+        health--;
         yield return wait;
-        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+      
     }
 
+    // enemy collison and pickup collision checks
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Coin")){
 
             levelManager.coins++;
+            Destroy(collision.gameObject);
 
         }else if (collision.gameObject.CompareTag("Enemy"))
         {
-            
-           health--;
+            StartCoroutine(IFrames());
             
         }
     }
