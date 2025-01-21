@@ -10,6 +10,7 @@ TagManager:
   - Max health
   - Coin
   - Enemy
+  - Hazard
   layers:
   - Default
   - TransparentFX

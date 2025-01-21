@@ -204,7 +204,7 @@ public class Adventurer : MonoBehaviour
     public void Use(bool u)
     {
         // changes list size and adds a hitpoint when you have purchased a potion and you have more than 0 hp
-        if(u && levelManager.purchasedList.Count >0 && health >0 )
+        if(u && levelManager.purchasedList.Count >0 && health > 0 && health != maxHealth )
         {    
             health += 1;
             levelManager.purchasedList.RemoveAt(0);
@@ -240,6 +240,8 @@ public class Adventurer : MonoBehaviour
             {
                 case 0:
                     healthBar.offsetMax = new Vector2(-200, 0);
+                    Destroy(gameObject);
+
                     Debug.Log("gameOver");
                     break;
                 case 1:
@@ -258,6 +260,7 @@ public class Adventurer : MonoBehaviour
                 case 0:
                     // changing the recttransfrom.right and .top variables
                     healthBar.offsetMax = new Vector2(-200, 0);
+                    Destroy(gameObject);
                     
                     Debug.Log("gameOver");
                     break;
@@ -294,6 +297,9 @@ public class Adventurer : MonoBehaviour
         {
             StartCoroutine(IFrames());
             
+        }else if (collision.gameObject.CompareTag("Hazard"))
+        {
+            health = 0;
         }
     }
 
