@@ -1038,6 +1038,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 754446831}
+    - target: {fileID: 114545440451073712, guid: c4340116f8de43547857aa5376de9c47, type: 3}
+      propertyPath: whatIsEnemy.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1572,6 +1576,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4055532924313396, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
       propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 58898546080759176, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114169494002934568, guid: 7989d2b2e9e01d341975cd151cde61c9, type: 3}

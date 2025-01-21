@@ -8,6 +8,8 @@ TagManager:
   - health potion
   - InventorySlot
   - Max health
+  - Coin
+  - Enemy
   layers:
   - Default
   - TransparentFX

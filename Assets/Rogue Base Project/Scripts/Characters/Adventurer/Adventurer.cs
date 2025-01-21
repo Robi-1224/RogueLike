@@ -262,6 +262,26 @@ public class Adventurer : MonoBehaviour
         }
     }
 
+    private IEnumerator IFrames()
+    {
+        WaitForSeconds wait = new WaitForSeconds(.3f);
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        yield return wait;
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Coin")){
+
+            levelManager.coins++;
+
+        }else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            
+           health--;
+            
+        }
+    }
 
 }
