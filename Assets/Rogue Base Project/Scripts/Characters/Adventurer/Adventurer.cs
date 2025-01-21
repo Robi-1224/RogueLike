@@ -27,10 +27,13 @@ public class Adventurer : MonoBehaviour
     private bool isJumping = false;
     private bool isCrouching = false;
     private bool canDash = false;
+    private bool maxHealht = false;
+    private bool dashCloak = false;
 
     private int currentDirection = 0; // In which direction it moves.
 
     private Rigidbody2D rb2d;
+    [SerializeField] RectTransform healthBar;
 
     private void Start()
     {
@@ -48,13 +51,23 @@ public class Adventurer : MonoBehaviour
         if(levelManager.permaUnlockList.Contains("Max health"))
         {
             maxHealth = 6;
+            maxHealht = true;
         }
+
+        if(levelManager.permaUnlockList.Contains("Dash cloak"))
+        {
+            dashCloak = true;
+        }
+
         health = maxHealth;
     }
 
     // We get all the inputs.
     private void Update()
     {
+
+        HealthCheck();
+
         if(currentDirection == 0)
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
@@ -133,7 +146,7 @@ public class Adventurer : MonoBehaviour
     public void Dash(bool d)
     {
        
-        if (levelManager.permaUnlockList.Contains("Dash cloak") && d)
+        if (dashCloak && d)
         {
           if (character.m_FacingRight && canDash)
           {
@@ -197,6 +210,7 @@ public class Adventurer : MonoBehaviour
     {
         // Update the state crouch.
         isCrouching = c;
+        animator.SetBool("IsCrouching", c);
     }
 
     public void Attack(bool a)
@@ -211,9 +225,43 @@ public class Adventurer : MonoBehaviour
         Jump(false);
     }
 
-    public void OnCrouching(bool isCrouching)
+    private void HealthCheck()
     {
-        // While we are crouching, the corresponding animation will be played.
-        animator.SetBool("IsCrouching", isCrouching);
+        // healthbar ui
+        if (maxHealht)
+        {
+            switch (health)
+            {
+                case 0:
+                    healthBar.offsetMax = new Vector2(-200, 0);
+                    Debug.Log("gameOver");
+                    break;
+                case 1:
+                    healthBar.offsetMax = new Vector2(-200 + 33.33f, 0);
+                    break;
+                case  < 6:
+                    healthBar.offsetMax = new Vector2(-200 / health, 0);
+                    break;
+            }
+        }
+        else
+        {
+            switch (health)
+            {
+                case 0:
+                    healthBar.offsetMax = new Vector2(-200, 0);
+                    Debug.Log("gameOver");
+                    break;
+                case 1:
+                    healthBar.offsetMax = new Vector2(-200 + 33.33f, 0);
+                    break;
+                case < 3:
+                    healthBar.offsetMax = new Vector2(-200 / health, 0);
+                    break;
+            }
+        }
     }
+
+
+
 }
