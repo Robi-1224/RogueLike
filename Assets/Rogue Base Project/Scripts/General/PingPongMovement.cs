@@ -34,11 +34,11 @@ public class PingPongMovement : MonoBehaviour
         Flip();
 
         // Repeat the process, in reverse.
-       // if (point == origin)
+        if (point == origin)
         {
             StartCoroutine(Move(target.position));
         }
-        //else
+        else
         {
             StartCoroutine(Move(origin));
         }
