@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     private SaveManager saveData;
+    private RandomSpawns randomSpawns;
 
     public List<string> purchasedList;
     public List<string> permaUnlockList;
@@ -19,11 +20,18 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int inventoryIndex;  
    
     public int coins = 0;                              // Amount of coins collected.
+    public int amountOfEnemies;
+    public int amountOfCoins;
+    private int wave = 0;
     void Start()
     {
       
        Instance = this;
        saveData = GetComponent<SaveManager>();
+       randomSpawns = FindAnyObjectByType<RandomSpawns>();
+
+       amountOfCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
+       amountOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
       
     }
    
@@ -31,11 +39,16 @@ public class LevelManager : MonoBehaviour
     {
         coinText.text = coins.ToString();
         // Restart the scene when you press.
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (amountOfCoins == 0 && amountOfEnemies == 0)
         {
-           // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            randomSpawns.Randomize();
             saveData.SaveData();
+            wave++;
+            amountOfCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
+            amountOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
         }
+
+       
 
 
        

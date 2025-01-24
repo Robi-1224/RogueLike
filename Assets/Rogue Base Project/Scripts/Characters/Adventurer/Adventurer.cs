@@ -22,19 +22,27 @@ public class Adventurer : MonoBehaviour
     private Animator animator;
     private InventoryManager inventoryManager;
     private LevelManager levelManager;
-    private SaveManager saveManager;
 
     private float horizontalMove = 0f; // To what extent it moves horizontally.
-    // all the perma unlock bools including movement bools
+
+    // all the perma unlock bools 
+  
+    private bool maxHealht = false;
+    private bool dashCloak = false;
+    
+
+    // all the movement bools
     private bool isJumping = false;
     private bool isCrouching = false;
     private bool canDash = false;
-    private bool maxHealht = false;
-    private bool dashCloak = false;
+    private bool isAttacking = false;
 
     private int currentDirection = 0; // In which direction it moves.
 
     private Rigidbody2D rb2d;
+
+    //ui refs
+    [SerializeField] GameObject gameOverScreen;
     [SerializeField] RectTransform healthBar;
 
     private void Start()
@@ -44,7 +52,7 @@ public class Adventurer : MonoBehaviour
         attack = GetComponent<AttackController>();
         inventoryManager= FindAnyObjectByType<InventoryManager>();
         levelManager = FindAnyObjectByType<LevelManager>();
-        saveManager= FindAnyObjectByType<SaveManager>();
+      
         // component refs
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -223,6 +231,7 @@ public class Adventurer : MonoBehaviour
     {
         // We communicate with the attack controller if we want to attack.
         attack.Attack(a);
+        isAttacking = a;
     }
 
     public void OnLanding()
@@ -240,6 +249,7 @@ public class Adventurer : MonoBehaviour
             {
                 case 0:
                     healthBar.offsetMax = new Vector2(-200, 0);
+                    gameOverScreen.SetActive(true);
                     Destroy(gameObject);
 
                     Debug.Log("gameOver");
@@ -288,19 +298,30 @@ public class Adventurer : MonoBehaviour
     // enemy collison and pickup collision checks
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Coin")){
+        if (collision.gameObject.CompareTag("Coin")) {
 
             levelManager.coins++;
+            levelManager.amountOfCoins--;
             Destroy(collision.gameObject);
 
-        }else if (collision.gameObject.CompareTag("Enemy"))
+        } else if (collision.gameObject.CompareTag("Enemy") && isAttacking)
+        {
+            Destroy(collision.gameObject);
+            levelManager.amountOfEnemies--;
+        }
+        else if(collision.gameObject.CompareTag("Enemy") && !isAttacking)
         {
             StartCoroutine(IFrames());
-            
-        }else if (collision.gameObject.CompareTag("Hazard"))
+        }
+        else if (collision.gameObject.CompareTag("Hazard"))
         {
             health = 0;
         }
+
+
+
+
+
     }
 
 }

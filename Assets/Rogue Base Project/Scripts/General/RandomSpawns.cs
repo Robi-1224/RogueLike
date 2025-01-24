@@ -11,21 +11,7 @@ public class RandomSpawns : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        var random= Random.Range(2,10);
-        var spawnRandom = Random.Range(0,spawnPoints.Count);
-        for (int i = 0; i < spawnRandom; i++)
-        {
-            for (int j = 0; j < random; j++)
-            {
-                var inst = Instantiate(items[j], spawnPoints[i].transform.position, Quaternion.identity);
-
-                if (inst.gameObject.tag == "Enemy")
-                {
-                    inst.gameObject.GetComponent<PingPongMovement>().target = spawnPoints[i];
-                    Debug.Log("Aids");
-                }
-            }
-        }
+        Randomize();
     }
 
     // Update is called once per frame
@@ -34,5 +20,31 @@ public class RandomSpawns : MonoBehaviour
         
     }
 
+    public void Randomize()
+    {
+        var random = Random.Range(0, 7);
+        var spawnRandom = Random.Range(0, spawnPoints.Count);
+        var player = GameObject.FindGameObjectWithTag("Player");
 
+        for (int i = 0; i < spawnRandom; i++)
+        {
+            for (int j = 0; j < random; j++)
+            {
+                var inst = Instantiate(items[j], new Vector3(spawnPoints[i].position.x + 3, spawnPoints[i].position.y, spawnPoints[i].position.z), Quaternion.identity);
+                player.transform.position = spawnPoints[i].position;
+
+                if (inst.gameObject.tag == "Enemy")
+                {
+                    inst.gameObject.GetComponent<PingPongMovement>().target = spawnPoints[i];
+                    Debug.Log("Aids");
+                }
+                else if (inst.gameObject.tag == "Coin")
+                {
+                    inst.transform.position = new Vector3(inst.transform.position.x, inst.transform.position.y + 0.7f, inst.transform.position.z);
+                }
+
+
+            }
+        }
+    }
 }

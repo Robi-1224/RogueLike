@@ -55,6 +55,11 @@ public class Shop : MonoBehaviour
         shopPanel.SetActive(false);
     }
 
+    public void GameOverBackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void OpenShopButton()
     {
         shopPanel.SetActive(true);
@@ -62,6 +67,6 @@ public class Shop : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Template Scene");
+        SceneManager.LoadScene("TemplateScene");
     }
 }
