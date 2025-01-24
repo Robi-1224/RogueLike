@@ -23,6 +23,10 @@ public class LevelManager : MonoBehaviour
     public int amountOfEnemies;
     public int amountOfCoins;
     private int wave = 0;
+
+    [SerializeField] TextMeshProUGUI waveText;
+    [SerializeField] TextMeshProUGUI coinsLeftText;
+    [SerializeField] TextMeshProUGUI enemiesLeftText;
     void Start()
     {
       
@@ -38,8 +42,12 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         coinText.text = coins.ToString();
+        waveText.text = "You survived for: " + wave.ToString() + " waves!";
+        coinsLeftText.text = amountOfCoins.ToString() + " coins left";
+        enemiesLeftText.text = amountOfEnemies.ToString() + " enemies left";
+
         // Restart the scene when you press.
-        if (amountOfCoins == 0 && amountOfEnemies == 0)
+        if (amountOfCoins <= 0 && amountOfEnemies <= 0)
         {
             randomSpawns.Randomize();
             saveData.SaveData();

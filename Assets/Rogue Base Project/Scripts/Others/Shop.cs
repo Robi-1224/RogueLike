@@ -69,4 +69,9 @@ public class Shop : MonoBehaviour
     {
         SceneManager.LoadScene("TemplateScene");
     }
+
+    public void Quitgame()
+    {
+        Application.Quit();
+    }
 }

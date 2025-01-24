@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 public class Adventurer : MonoBehaviour
@@ -22,6 +23,7 @@ public class Adventurer : MonoBehaviour
     private Animator animator;
     private InventoryManager inventoryManager;
     private LevelManager levelManager;
+    private SaveManager saveManager;
 
     private float horizontalMove = 0f; // To what extent it moves horizontally.
 
@@ -52,7 +54,7 @@ public class Adventurer : MonoBehaviour
         attack = GetComponent<AttackController>();
         inventoryManager= FindAnyObjectByType<InventoryManager>();
         levelManager = FindAnyObjectByType<LevelManager>();
-      
+        saveManager = FindAnyObjectByType<SaveManager>();
         // component refs
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -63,7 +65,7 @@ public class Adventurer : MonoBehaviour
 
         if(levelManager.permaUnlockList.Contains("Max health"))
         {
-            maxHealth = 6;
+            maxHealth = maxHealth * 2;
             maxHealht = true;
         }
 
@@ -80,7 +82,6 @@ public class Adventurer : MonoBehaviour
     {
 
         HealthCheck();
-
         if(currentDirection == 0)
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
@@ -247,10 +248,12 @@ public class Adventurer : MonoBehaviour
         {
             switch (health)
             {
-                case 0:
+                case  <=0:
+                    
                     healthBar.offsetMax = new Vector2(-200, 0);
                     gameOverScreen.SetActive(true);
                     Destroy(gameObject);
+                    saveManager.SaveData();
 
                     Debug.Log("gameOver");
                     break;
@@ -267,11 +270,13 @@ public class Adventurer : MonoBehaviour
         {
             switch (health)
             {
-                case 0:
+                case <= 0:
                     // changing the recttransfrom.right and .top variables
                     healthBar.offsetMax = new Vector2(-200, 0);
+                    gameOverScreen.SetActive(true);
                     Destroy(gameObject);
-                    
+                    saveManager.SaveData();
+
                     Debug.Log("gameOver");
                     break;
                 case 1:
@@ -287,17 +292,20 @@ public class Adventurer : MonoBehaviour
     private IEnumerator IFrames()
     {
         // throws the player off of the monster and ads a cooldown before being able to get hit again
-        WaitForSeconds wait = new WaitForSeconds(.5f);
-      
+        WaitForSeconds wait = new WaitForSeconds(3);
+
+       
         rb2d.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
         health--;
         yield return wait;
+       
       
     }
 
     // enemy collison and pickup collision checks
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject.CompareTag("Coin")) {
 
             levelManager.coins++;
@@ -311,6 +319,7 @@ public class Adventurer : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Enemy") && !isAttacking)
         {
+            
             StartCoroutine(IFrames());
         }
         else if (collision.gameObject.CompareTag("Hazard"))

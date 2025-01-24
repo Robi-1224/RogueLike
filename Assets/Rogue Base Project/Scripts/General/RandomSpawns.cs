@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomSpawns : MonoBehaviour
@@ -31,16 +32,16 @@ public class RandomSpawns : MonoBehaviour
             for (int j = 0; j < random; j++)
             {
                 var inst = Instantiate(items[j], new Vector3(spawnPoints[i].position.x + 3, spawnPoints[i].position.y, spawnPoints[i].position.z), Quaternion.identity);
-                player.transform.position = spawnPoints[i].position;
+                player.transform.position =  new Vector3(spawnPoints[i].position.x - 1, spawnPoints[i].position.y, spawnPoints[i].position.z);
 
                 if (inst.gameObject.tag == "Enemy")
                 {
                     inst.gameObject.GetComponent<PingPongMovement>().target = spawnPoints[i];
-                    Debug.Log("Aids");
+                 
                 }
                 else if (inst.gameObject.tag == "Coin")
                 {
-                    inst.transform.position = new Vector3(inst.transform.position.x, inst.transform.position.y + 0.7f, inst.transform.position.z);
+                    inst.transform.position = new Vector3(inst.transform.position.x, inst.transform.position.y + 1.3f, inst.transform.position.z);
                 }
 
 
